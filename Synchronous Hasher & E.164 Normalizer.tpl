@@ -14,7 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Synchronous Hasher & E.164 Normalizer",
-  "description": "Synchronous UTF-8 hashing (SHA-256, MD5, Base64) with multi-country E.164 phone and text normalization for GTM Web containers.",
+  "description": "Synchronous UTF-8 hashing (SHA-256, MD5, Base64) with multi-country E.164 phone and text normalization for GTM Web containers. By Md Kalimullah",
   "categories": [
     "UTILITY",
     "PRIVACY"
@@ -147,6 +147,11 @@ ___TEMPLATE_PARAMETERS___
 
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
+
+// ========================================================
+// Developer: Md Kalimullah (Web Analytics Pro)
+// LinkedIn: https://www.linkedin.com/in/kalimullahh/
+// ========================================================
 
 var makeString = require('makeString');
 var encodeUriComponent = require('encodeUriComponent');

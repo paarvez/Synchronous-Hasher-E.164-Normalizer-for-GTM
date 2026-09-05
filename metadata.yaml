@@ -1,0 +1,5 @@
+homepage: "https://www.linkedin.com/in/kalimullahh/"
+documentation: "https://github.com/paarvez/sha256-hasher"
+versions:
+  - sha: "HEAD"
+    changeNotes: "Universal E.164 Multi-Country Phone Normalization and synchronous multi-format hashing (SHA-256, MD5, Base64)."
