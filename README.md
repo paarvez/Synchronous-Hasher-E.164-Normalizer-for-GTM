@@ -1,39 +1,33 @@
 # SHA-256 & Multi-Format Hasher for GTM
 
-A lightweight, synchronous hashing variable template for **Google Tag Manager (Web Containers)**.
+A high-performance, synchronous variable template for **Google Tag Manager (Web Containers)** with universal **E.164 Multi-Country Phone Normalization**.
 
 Runs 100% in GTM's native sandboxed JavaScript engine with **zero external script injection**, **zero network calls**, and **full CSP compliance**.
 
 ---
 
-## Why This Exists
+## Supported Output Formats
 
-Standard GTM setups struggle with hashing in Web containers:
-1. GTM's built-in `sha256` API is asynchronous and cannot be used in Variable templates (which require synchronous returns).
-2. Third-party tags often inject external CDN scripts (`v9.js`, etc.) that get blocked by ad-blockers, tracking prevention, or strict Content Security Policies.
-
-This template embeds a synchronous, pure-JS UTF-8 digest engine directly into the GTM Sandboxed Macro.
-
----
-
-## Supported Formats
-
-| Format | Output Example | Typical Use Case |
+| Format | Output Example | Target Platforms |
 | :--- | :--- | :--- |
-| **SHA-256 (HEX)** | `e3b0c44298fc1c149afbf4c8996fb924...` | Meta CAPI, Google Ads Enhanced Conversions, TikTok |
+| **SHA-256 (HEX)** | `e3b0c44298fc1c149afbf4c8996fb924...` | Meta CAPI, Google Ads Enhanced Conversions, TikTok Events API, Snapchat CAPI, Pinterest |
 | **SHA-256 (Base64)** | `47DEQpj8HBSa+/TImW+5JCeuQeRkm5NM...` | Custom APIs / CDPs |
-| **MD5 (HEX)** | `d41d8cd98f00b204e9800998ecf8427e` | CRM matching / Legacy pixels |
+| **MD5 (HEX)** | `d41d8cd98f00b204e9800998ecf8427e` | Legacy pixels / CRM matching |
 | **MD5 (Base64)** | `1B2M2Y8AsgTpgAmY7PhCfg==` | Base64-encoded MD5 digests |
 | **Base64 (Raw)** | `dGVzdEBleGFtcGxlLmNvbQ==` | Payload obfuscation / basic encoding |
-| **None** | Normalized raw string | Data cleaning without hashing |
+| **None** | `8801712345678` or `+15551234567` | Raw E.164 normalization without hashing (for tags that auto-hash) |
 
 ---
 
-## Built-in Normalization
+## Universal Multi-Country Phone Normalization (E.164)
 
-* **Trim whitespace:** Strips leading and trailing spaces (enabled by default).
-* **Lowercase conversion:** Standardizes case for emails and names (enabled by default).
-* **Phone normalization:** Strips formatting characters (spaces, brackets, dashes), retaining leading `+` and digits.
+Standardizes customer phone numbers from any country and input format into strict advertising platform standards:
+
+* **Platform Standards Supported:**
+  * **Meta CAPI / Snapchat / Pinterest:** Strips all non-digits, leading zeros, and **excludes `+` sign** (e.g. `8801712345678`, `15551234567`).
+  * **Google Ads / TikTok Events API / GA4:** Strictly formats to **`+E.164`** with leading `+` sign (e.g. `+8801712345678`, `+15551234567`).
+* **Multi-Script Numeral Conversion:** Automatically translates **Arabic-Indic** (`٠-٩`), **Eastern-Arabic / Persian** (`۰-৯`), and **Bengali** (`০-৯`) digits into standard ASCII (`0-9`).
+* **Global Country Code Resolution:** Preserves existing international prefixes (`+`, `00`), or auto-injects configurable country code (e.g. `1` US, `44` UK, `971` UAE, `880` BD) when customers enter local national numbers.
 
 ---
 
@@ -45,21 +39,7 @@ This template embeds a synchronous, pure-JS UTF-8 digest engine directly into th
 
 ---
 
-## Usage
-
-1. Create a new Variable in GTM.
-2. Select **SHA-256 Hasher** as the variable type.
-3. Choose your input variable (e.g. `{{DLV - email}}`), select the output format, and configure normalization.
-
----
-
 ## Developer
 
 **Md Kalimullah** — Web Analytics Pro  
 LinkedIn: [https://www.linkedin.com/in/kalimullahh/](https://www.linkedin.com/in/kalimullahh/)
-
----
-
-## License
-
-Apache 2.0

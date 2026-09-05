@@ -10,7 +10,7 @@ ___INFO___
 
 {
   "type": "MACRO",
-  "id": "sha256_hasher_sync",
+  "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
   "displayName": "SHA-256 Hasher",
@@ -33,7 +33,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "input",
     "displayName": "Value to Hash",
     "simpleValueType": true,
-    "help": "Enter a value or select a GTM variable (e.g. {{DLV - email}}).",
+    "help": "Enter a value or select a GTM variable (e.g. {{DLV - email}}, {{DLV - phone}}).",
     "valueValidators": [
       {
         "type": "NON_EMPTY"
@@ -47,7 +47,7 @@ ___TEMPLATE_PARAMETERS___
     "selectItems": [
       {
         "value": "sha256_hex",
-        "displayValue": "SHA-256 (HEX - standard)"
+        "displayValue": "SHA-256 (HEX - Meta, Google, TikTok, Snap standard)"
       },
       {
         "value": "sha256_base64",
@@ -67,7 +67,7 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "value": "none",
-        "displayValue": "None (Normalization only)"
+        "displayValue": "None (Normalization only - Raw E.164 / cleaned text)"
       }
     ],
     "defaultValue": "sha256_hex",
@@ -96,9 +96,50 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "phone_format",
-        "checkboxText": "Format as phone number (strip special characters)",
+        "checkboxText": "Normalize as Phone Number (Universal E.164 Multi-Country)",
+        "help": "Translates non-ASCII numerals (Arabic/Persian/Bengali), strips non-digits, resolves country codes, and standardizes format for Meta, Google Ads, TikTok, or Snap.",
         "defaultValue": false,
         "simpleValueType": true
+      },
+      {
+        "type": "SELECT",
+        "name": "phone_standard",
+        "displayName": "Platform Phone Standard",
+        "selectItems": [
+          {
+            "value": "meta_snap",
+            "displayValue": "Meta CAPI / Snapchat / Pinterest (Digits only, no '+')"
+          },
+          {
+            "value": "google_tiktok",
+            "displayValue": "Google Ads / TikTok / GA4 (+E.164 with '+')"
+          }
+        ],
+        "defaultValue": "meta_snap",
+        "simpleValueType": true,
+        "enablingConditions": [
+          {
+            "paramName": "phone_format",
+            "paramValue": true,
+            "type": "EQUALS"
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "name": "default_country_code",
+        "displayName": "Default Country Calling Code (if missing)",
+        "help": "Country calling code without plus sign (e.g. 1 for US/Canada, 44 for UK, 971 for UAE, 880 for BD). Used when user enters a local national number starting with 0. Also accepts a dynamic GTM variable (e.g. {{DLV - country_code}}).",
+        "valueHint": "880",
+        "defaultValue": "880",
+        "simpleValueType": true,
+        "enablingConditions": [
+          {
+            "paramName": "phone_format",
+            "paramValue": true,
+            "type": "EQUALS"
+          }
+        ]
       }
     ]
   }
@@ -125,14 +166,64 @@ if (data.to_lowercase !== false) {
   s = s.toLowerCase();
 }
 if (data.phone_format === true) {
-  var cleaned = '';
-  for (var k = 0; k < s.length; k = k + 1) {
-    var c = s.charAt(k);
-    if ((c >= '0' && c <= '9') || (k === 0 && c === '+')) {
-      cleaned = cleaned + c;
+  // Step 1: Universal Numeral Translation (Arabic-Indic, Eastern-Arabic/Persian, Bengali -> ASCII)
+  var translated = '';
+  for (var cIdx = 0; cIdx < s.length; cIdx = cIdx + 1) {
+    var char = s.charAt(cIdx);
+    var code = s.charCodeAt(cIdx);
+    if (code >= 1632 && code <= 1641) {
+      translated = translated + makeString(code - 1632);
+    } else if (code >= 1776 && code <= 1785) {
+      translated = translated + makeString(code - 1776);
+    } else if (code >= 2534 && code <= 2543) {
+      translated = translated + makeString(code - 2534);
+    } else {
+      translated = translated + char;
     }
   }
-  s = cleaned;
+  s = translated;
+
+  // Step 2: Check for explicit '+' and extract all digits
+  var hasPlus = s.indexOf('+') !== -1;
+  var digitsOnly = '';
+  for (var k = 0; k < s.length; k = k + 1) {
+    var c = s.charAt(k);
+    if (c >= '0' && c <= '9') {
+      digitsOnly = digitsOnly + c;
+    }
+  }
+
+  // Step 3: Handle international 00 prefix
+  if (digitsOnly.indexOf('00') === 0) {
+    digitsOnly = digitsOnly.substring(2);
+    hasPlus = true;
+  }
+
+  // Step 4: Resolve Country Calling Code for national/local numbers
+  var defaultCC = data.default_country_code !== undefined && data.default_country_code !== null ? makeString(data.default_country_code).trim() : '';
+  if (defaultCC.indexOf('+') === 0) {
+    defaultCC = defaultCC.substring(1);
+  }
+
+  if (!hasPlus && defaultCC !== '') {
+    if (digitsOnly.indexOf(defaultCC) === 0 && digitsOnly.length >= defaultCC.length + 7) {
+      // Already has country code
+    } else if (digitsOnly.indexOf('0') === 0) {
+      // Local trunk zero (e.g. 01712... or 07123...)
+      digitsOnly = defaultCC + digitsOnly.substring(1);
+    } else if (digitsOnly.length <= 10) {
+      // National number without leading zero (e.g. US 10-digit 5551234567 or BD 1712345678)
+      digitsOnly = defaultCC + digitsOnly;
+    }
+  }
+
+  // Step 5: Format for target advertising platform standard
+  var phoneStd = data.phone_standard || 'meta_snap';
+  if (phoneStd === 'google_tiktok') {
+    s = '+' + digitsOnly;
+  } else {
+    s = digitsOnly;
+  }
 }
 
 if (s === '') {
@@ -153,12 +244,20 @@ var LOWER = 'abcdefghijklmnopqrstuvwxyz';
 var DIGITS = '0123456789';
 var encoded = encodeUriComponent(s);
 
+function getHexVal(hChar) {
+  var hc = hChar.charCodeAt(0);
+  if (hc >= 48 && hc <= 57) return hc - 48; // 0-9
+  if (hc >= 65 && hc <= 70) return hc - 55; // A-F
+  if (hc >= 97 && hc <= 102) return hc - 87; // a-f
+  return 0;
+}
+
 var bytes = [];
 var j = 0;
 while (j < encoded.length) {
   var ch = encoded.charAt(j);
   if (ch === '%') {
-    var hv = HEX.indexOf(encoded.charAt(j + 1)) * 16 + HEX.indexOf(encoded.charAt(j + 2));
+    var hv = getHexVal(encoded.charAt(j + 1)) * 16 + getHexVal(encoded.charAt(j + 2));
     bytes.push(hv);
     j += 3;
   } else {
