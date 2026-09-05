@@ -47,7 +47,7 @@ ___TEMPLATE_PARAMETERS___
     "selectItems": [
       {
         "value": "sha256_hex",
-        "displayValue": "SHA-256 (HEX - Meta, Google, TikTok, Snap standard)"
+        "displayValue": "SHA-256 (HEX)"
       },
       {
         "value": "sha256_base64",
@@ -63,11 +63,11 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "value": "base64",
-        "displayValue": "Base64 (Raw encoding)"
+        "displayValue": "Base64"
       },
       {
         "value": "none",
-        "displayValue": "None (Normalization only - Raw E.164 / cleaned text)"
+        "displayValue": "None (Raw / Normalized)"
       }
     ],
     "defaultValue": "sha256_hex",
@@ -96,23 +96,23 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "phone_format",
-        "checkboxText": "Normalize as Phone Number (Universal E.164 Multi-Country)",
-        "help": "Translates non-ASCII numerals (Arabic/Persian/Bengali), strips non-digits, resolves country codes, and standardizes format for Meta, Google Ads, TikTok, or Snap.",
+        "checkboxText": "Normalize phone number (E.164)",
+        "help": "Converts non-ASCII digits, removes punctuation/spaces, and resolves country codes.",
         "defaultValue": false,
         "simpleValueType": true
       },
       {
         "type": "SELECT",
         "name": "phone_standard",
-        "displayName": "Platform Phone Standard",
+        "displayName": "Phone Output Format",
         "selectItems": [
           {
             "value": "meta_snap",
-            "displayValue": "Meta CAPI / Snapchat / Pinterest (Digits only, no '+')"
+            "displayValue": "Digits Only (e.g. 15551234567)"
           },
           {
             "value": "google_tiktok",
-            "displayValue": "Google Ads / TikTok / GA4 (+E.164 with '+')"
+            "displayValue": "Leading Plus Sign (e.g. +15551234567)"
           }
         ],
         "defaultValue": "meta_snap",
@@ -128,8 +128,8 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "TEXT",
         "name": "default_country_code",
-        "displayName": "Default Country Calling Code (if missing)",
-        "help": "Country calling code without plus sign (e.g. 1 for US/Canada, 44 for UK, 971 for UAE, 880 for BD). Used when user enters a local national number starting with 0. Also accepts a dynamic GTM variable (e.g. {{DLV - country_code}}).",
+        "displayName": "Default Country Code",
+        "help": "Calling code prepended to local numbers starting with 0 (e.g. 1, 44, 880). Supports static numbers or dynamic variables like {{DLV - country_code}}.",
         "valueHint": "880",
         "defaultValue": "880",
         "simpleValueType": true,
