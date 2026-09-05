@@ -108,11 +108,11 @@ ___TEMPLATE_PARAMETERS___
         "selectItems": [
           {
             "value": "meta_snap",
-            "displayValue": "Digits Only (e.g. 15551234567)"
+            "displayValue": "Digits only (no plus sign)"
           },
           {
             "value": "google_tiktok",
-            "displayValue": "Leading Plus Sign (e.g. +15551234567)"
+            "displayValue": "Include leading plus sign (+)"
           }
         ],
         "defaultValue": "meta_snap",
