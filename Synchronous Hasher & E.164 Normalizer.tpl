@@ -13,8 +13,8 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "SHA-256 Hasher",
-  "description": "Converts any text or variable value into a SHA-256, MD5, or Base64 hash with formatting and normalization options.",
+  "displayName": "Synchronous Hasher & E.164 Normalizer | Md Kalimullah",
+  "description": "Synchronous UTF-8 hashing (SHA-256, MD5, Base64) with multi-country E.164 phone and text normalization for GTM Web containers.",
   "categories": [
     "UTILITY",
     "PRIVACY"

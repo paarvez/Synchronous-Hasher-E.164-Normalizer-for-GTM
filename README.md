@@ -1,8 +1,18 @@
-# SHA-256 & Multi-Format Hasher for GTM
+# Synchronous Hasher & E.164 Normalizer for GTM
 
-A lightweight, synchronous variable template for **Google Tag Manager (Web Containers)** with pure-JS UTF-8 hashing and universal **E.164 Phone Normalization**.
+A lightweight, synchronous variable template for **Google Tag Manager (Web Containers)** providing pure-JS UTF-8 hashing (SHA-256, MD5, Base64) and universal **E.164 Phone Normalization**.
 
 Runs 100% in GTM's native sandboxed JavaScript engine with **zero external script injection**, **zero network calls**, and **full CSP compliance**.
+
+---
+
+## Why This Exists
+
+Standard GTM setups face severe limitations with hashing in Web containers:
+1. GTM's built-in `sha256` API is asynchronous and cannot be used in Variable templates (which require synchronous returns).
+2. Third-party tags often inject external CDN scripts (`v9.js`, etc.) that get blocked by ad-blockers, tracking prevention, or strict Content Security Policies.
+
+This template embeds a synchronous, pure-JS UTF-8 digest engine directly into the GTM Sandboxed Macro.
 
 ---
 
@@ -33,9 +43,17 @@ Runs 100% in GTM's native sandboxed JavaScript engine with **zero external scrip
 
 ## Installation
 
-1. Download [`SHA-256 Hasher.tpl`](./SHA-256%20Hasher.tpl).
+1. Download [`Synchronous Hasher & E.164 Normalizer.tpl`](./Synchronous%20Hasher%20%26%20E.164%20Normalizer.tpl).
 2. In Google Tag Manager, go to **Templates** → **Variable Templates** → **New**.
-3. Click menu (**⋮**) → **Import**, select `SHA-256 Hasher.tpl`, and click **Save**.
+3. Click menu (**⋮**) → **Import**, select `Synchronous Hasher & E.164 Normalizer.tpl`, and click **Save**.
+
+---
+
+## Usage
+
+1. Create a new Variable in GTM.
+2. Select **Synchronous Hasher & E.164 Normalizer** as the variable type.
+3. Choose your input variable (e.g. `{{DLV - email}}`, `{{DLV - phone}}`), select the output format, and configure normalization.
 
 ---
 
