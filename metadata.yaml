@@ -1,5 +1,5 @@
 homepage: "https://www.linkedin.com/in/kalimullahh/"
 documentation: "https://github.com/paarvez/sha256-hasher"
 versions:
-  - sha: "58db4e3a2c77e3cbd66d5871e871cda95042bafb"
+  - sha: "e4372c6f183382452de3834e164ed35d4d77592e"
     changeNotes: "Universal E.164 Multi-Country Phone Normalization and synchronous multi-format hashing (SHA-256, MD5, Base64)."
