@@ -178,17 +178,28 @@ if (data.to_lowercase !== false) {
 if (data.phone_format === true) {
   // Step 1: Universal Numeral Translation (Arabic-Indic, Eastern-Arabic/Persian, Bengali -> ASCII)
   var translated = '';
+  var ARABIC_INDIC = '٠١٢٣٤٥٦٧٨٩';
+  var PERSIAN = '۰۱۲৩۴৫۶৭৮৯';
+  var BENGALI = '০১২৩৪৫৬৭৮৯';
+  var ASCII = '0123456789';
+
   for (var cIdx = 0; cIdx < s.length; cIdx = cIdx + 1) {
     var char = s.charAt(cIdx);
-    var code = s.charCodeAt(cIdx);
-    if (code >= 1632 && code <= 1641) {
-      translated = translated + makeString(code - 1632);
-    } else if (code >= 1776 && code <= 1785) {
-      translated = translated + makeString(code - 1776);
-    } else if (code >= 2534 && code <= 2543) {
-      translated = translated + makeString(code - 2534);
+    var aIdx = ARABIC_INDIC.indexOf(char);
+    if (aIdx !== -1) {
+      translated = translated + ASCII.charAt(aIdx);
     } else {
-      translated = translated + char;
+      var pIdx = PERSIAN.indexOf(char);
+      if (pIdx !== -1) {
+        translated = translated + ASCII.charAt(pIdx);
+      } else {
+        var bIdx = BENGALI.indexOf(char);
+        if (bIdx !== -1) {
+          translated = translated + ASCII.charAt(bIdx);
+        } else {
+          translated = translated + char;
+        }
+      }
     }
   }
   s = translated;
@@ -254,11 +265,13 @@ var LOWER = 'abcdefghijklmnopqrstuvwxyz';
 var DIGITS = '0123456789';
 var encoded = encodeUriComponent(s);
 
+var HEX_VALS = '0123456789abcdef';
+var HEX_VALS_UPPER = '0123456789ABCDEF';
 function getHexVal(hChar) {
-  var hc = hChar.charCodeAt(0);
-  if (hc >= 48 && hc <= 57) return hc - 48; // 0-9
-  if (hc >= 65 && hc <= 70) return hc - 55; // A-F
-  if (hc >= 97 && hc <= 102) return hc - 87; // a-f
+  var idx = HEX_VALS.indexOf(hChar);
+  if (idx !== -1) return idx;
+  var uIdx = HEX_VALS_UPPER.indexOf(hChar);
+  if (uIdx !== -1) return uIdx;
   return 0;
 }
 
