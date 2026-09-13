@@ -1,4 +1,4 @@
-# Smart Hasher & Phone Formatter for GTM
+# Smart Hasher & E.164 Phone Formatter for GTM
 
 A lightweight, instant variable template for **Google Tag Manager (Web Containers)** providing pure-JS UTF-8 hashing (SHA-256, MD5, Base64) and universal **E.164 Phone Normalization**.
 

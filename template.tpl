@@ -13,7 +13,7 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "Smart Hasher & Phone Formatter",
+  "displayName": "Smart Hasher & E.164 Phone Formatter",
   "description": "Instant pure-JS hashing (SHA-256, MD5, Base64) and international phone formatting for Meta CAPI and Google Ads.",
   "categories": [
     "UTILITY",
