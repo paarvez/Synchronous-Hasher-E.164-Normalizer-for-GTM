@@ -14,7 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Synchronous Hasher & E.164 Normalizer",
-  "description": "Synchronous UTF-8 hashing (SHA-256, MD5, Base64) with multi-country E.164 phone and text normalization for GTM Web containers. By Md Kalimullah",
+  "description": "Synchronous UTF-8 hashing (SHA-256, MD5, Base64) with multi-country E.164 phone and text normalization for GTM Web containers.",
   "categories": [
     "UTILITY",
     "CONVERSIONS"
