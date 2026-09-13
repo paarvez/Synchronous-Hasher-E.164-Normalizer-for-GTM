@@ -43,9 +43,9 @@ This template embeds a synchronous, pure-JS UTF-8 digest engine directly into th
 
 ## Installation
 
-1. Download [`Synchronous Hasher & E.164 Normalizer.tpl`](./Synchronous%20Hasher%20%26%20E.164%20Normalizer.tpl).
+1. Download [`template.tpl`](./template.tpl).
 2. In Google Tag Manager, go to **Templates** → **Variable Templates** → **New**.
-3. Click menu (**⋮**) → **Import**, select `Synchronous Hasher & E.164 Normalizer.tpl`, and click **Save**.
+3. Click menu (**⋮**) → **Import**, select `template.tpl`, and click **Save**.
 
 ---
 
