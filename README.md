@@ -1,6 +1,6 @@
-# Synchronous Hasher & E.164 Normalizer for GTM
+# Smart Hasher & Phone Formatter for GTM
 
-A lightweight, synchronous variable template for **Google Tag Manager (Web Containers)** providing pure-JS UTF-8 hashing (SHA-256, MD5, Base64) and universal **E.164 Phone Normalization**.
+A lightweight, instant variable template for **Google Tag Manager (Web Containers)** providing pure-JS UTF-8 hashing (SHA-256, MD5, Base64) and universal **E.164 Phone Normalization**.
 
 Runs 100% in GTM's native sandboxed JavaScript engine with **zero external script injection**, **zero network calls**, and **full CSP compliance**.
 

@@ -13,8 +13,8 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "Synchronous Hasher & E.164 Normalizer",
-  "description": "Synchronous UTF-8 hashing (SHA-256, MD5, Base64) with multi-country E.164 phone and text normalization for GTM Web containers.",
+  "displayName": "Smart Hasher & Phone Formatter",
+  "description": "Instant pure-JS hashing (SHA-256, MD5, Base64) and international phone formatting for Meta CAPI and Google Ads.",
   "categories": [
     "UTILITY",
     "CONVERSIONS"
