@@ -142,11 +142,6 @@ ___TEMPLATE_PARAMETERS___
         ]
       }
     ]
-  },
-  {
-    "type": "LABEL",
-    "name": "dev_credit",
-    "displayName": "Developer: Md Kalimullah (Web Analytics Pro)"
   }
 ]
 
