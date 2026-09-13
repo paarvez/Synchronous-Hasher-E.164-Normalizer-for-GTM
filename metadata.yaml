@@ -1,5 +1,5 @@
 homepage: "https://www.linkedin.com/in/kalimullahh/"
 documentation: "https://github.com/paarvez/Synchronous-Hasher-E.164-Normalizer-for-GTM"
 versions:
-  - sha: "495b44279f1fc3ab186b1efe81630b80c77f9330"
+  - sha: "df8270205f46d124a4d8ad3939782341728a372a"
     changeNotes: "Universal E.164 Multi-Country Phone Normalization and synchronous multi-format hashing (SHA-256, MD5, Base64)."
